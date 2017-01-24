@@ -14,7 +14,7 @@
 ###############################################################################
 
 import smact
-from numpy import sqrt, product
+from numpy import sqrt, product, exp, mean
 from smact.data import get_mulliken
 from smact.data import get_pauling
 
@@ -211,3 +211,67 @@ def compound_electroneg_pauling(verbose=False, elements=None,
                                stoichs=stoichs,
                                elements_dict=elements_dict,
                                source='Pauling')
+
+def SSE_min(Compound):
+    '''
+    A function to calculate the minimum of the SSE band gap.
+    Args:
+        Compound : a list of smact Species.
+    Returns:
+        gap : real number, the calculated minimum SSE band gap in eV.
+    '''
+    anions = []
+    cations = []
+    for ele in Compound:
+        if ele.oxidation < 0:
+            anions.append(ele.SSE_2015)
+        else:
+            cations.append(ele.SSE_2015)
+    gap = min(cations) - max(anions)
+    return gap
+
+def SSE_average(Compound):
+    '''
+    A function to calculate the average SSE band gap.
+    Args:
+        Compound : a list of smact Species.
+    Returns:
+        gap : real number, the calculated average SSE band gap in eV.
+    '''
+    anions = []
+    cations = []
+    for ele in Compound:
+        if ele.oxidation < 0:
+            anions.append(ele.SSE_2015)
+        else:
+            cations.append(ele.SSE_2015)
+    gap = mean(cations) - mean(anions)
+    return gap
+
+def SSE_weight(Compound,x):
+    '''
+    A function to calculate the weighted average of the SSE band gap.
+    Args:
+        Compound : a list of smact Species.
+        x : real number, the weighting factor
+    Returns:
+        gap : real number, the calculated SSE band gap in eV.
+    '''
+    anions = []
+    cations = []
+    for ele in Compound:
+        if ele.oxidation < 0:
+            anions.append(ele.SSE_2015)
+        else:
+            cations.append(ele.SSE_2015)
+    if max(cations) == min(cations):
+        F1 = 0.5
+    else:
+        F1 = 0.5 * exp(-1 * (max(cations) - min(cations))**-x)
+    if max(anions) == min(anions):
+        F2 = 0.5
+    else:
+        F2 = 0.5 * exp(-1 * (max(anions) - min(anions))**-x)
+
+    gap = F1 * max(cations) + (1-F1) * min(cations) - (1-F2) * max(anions) - F2 * min(anions)
+    return gap

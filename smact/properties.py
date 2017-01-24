@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright Daniel Davies, Adam J. Jackson, Keith T. Butler (2016)            #
+# Copyright Haonan Le, Daniel Davies, Adam J. Jackson, Keith T. Butler (2016) #
 #                                                                             #
 # This file is part of SMACT: properties.py is free software: you can         #
 # redistribute it and/or modify it under the terms of the GNU General Public  #
@@ -212,11 +212,12 @@ def compound_electroneg_pauling(verbose=False, elements=None,
                                elements_dict=elements_dict,
                                source='Pauling')
 
-def SSE_min(Compound):
+def SSE_2015_min(Compound,SSE_2015=True):
     '''
     A function to calculate the minimum of the SSE band gap.
     Args:
         Compound : a list of smact Species.
+        SSE_2015 : Boolean - should I use SSE1 or SSE_2015 values.
     Returns:
         gap : real number, the calculated minimum SSE band gap in eV.
     '''
@@ -224,17 +225,25 @@ def SSE_min(Compound):
     cations = []
     for ele in Compound:
         if ele.oxidation < 0:
-            anions.append(ele.SSE_2015)
+            if SSE_2015:
+                anions.append(ele.SSE_2015)
+            else:
+                anions.append(ele.SSE)
         else:
-            cations.append(ele.SSE_2015)
+            if SSE_2015:
+                cations.append(ele.SSE_2015)
+            else:
+                cations.append(ele.SSE)
     gap = min(cations) - max(anions)
     return gap
 
-def SSE_average(Compound):
+def SSE_2015_average(Compound,SSE_2015=True):
     '''
     A function to calculate the average SSE band gap.
     Args:
         Compound : a list of smact Species.
+        SSE_2015 : Boolean - should I use SSE1 or SSE_2015 values.
+    Returns:
     Returns:
         gap : real number, the calculated average SSE band gap in eV.
     '''
@@ -242,17 +251,25 @@ def SSE_average(Compound):
     cations = []
     for ele in Compound:
         if ele.oxidation < 0:
-            anions.append(ele.SSE_2015)
+            if SSE_2015:
+                anions.append(ele.SSE_2015)
+            else:
+                anions.append(ele.SSE)
         else:
-            cations.append(ele.SSE_2015)
+            if SSE_2015:
+                cations.append(ele.SSE_2015)
+            else:
+                cations.append(ele.SSE)
     gap = mean(cations) - mean(anions)
     return gap
 
-def SSE_weight(Compound,x):
+def SSE_2015_weight(Compound,x,SSE_2015=True):
     '''
     A function to calculate the weighted average of the SSE band gap.
     Args:
         Compound : a list of smact Species.
+        SSE_2015 : Boolean - should I use SSE1 or SSE_2015 values.
+    Returns:
         x : real number, the weighting factor
     Returns:
         gap : real number, the calculated SSE band gap in eV.
@@ -261,9 +278,15 @@ def SSE_weight(Compound,x):
     cations = []
     for ele in Compound:
         if ele.oxidation < 0:
-            anions.append(ele.SSE_2015)
+            if SSE_2015:
+                anions.append(ele.SSE_2015)
+            else:
+                anions.append(ele.SSE)
         else:
-            cations.append(ele.SSE_2015)
+            if SSE_2015:
+                cations.append(ele.SSE_2015)
+            else:
+                cations.append(ele.SSE)
     if max(cations) == min(cations):
         F1 = 0.5
     else:

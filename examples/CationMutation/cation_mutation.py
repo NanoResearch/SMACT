@@ -4,6 +4,8 @@
  Generate all possible (symmetry inequivalent) substitutions of Sr on Ba
  sites; single and double substitutions.
 
+ This is an example.
+
 """
 
 import smact.builder as builder

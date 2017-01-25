@@ -212,7 +212,7 @@ def compound_electroneg_pauling(verbose=False, elements=None,
                                elements_dict=elements_dict,
                                source='Pauling')
 
-def SSE_2015_min(Compound,SSE_2015=True):
+def SSE_min_gap(Compound,SSE_2015=True):
     '''
     A function to calculate the minimum of the SSE band gap.
     Args:
@@ -237,7 +237,7 @@ def SSE_2015_min(Compound,SSE_2015=True):
     gap = min(cations) - max(anions)
     return gap
 
-def SSE_2015_average(Compound,SSE_2015=True):
+def SSE_average_gap(Compound,SSE_2015=True):
     '''
     A function to calculate the average SSE band gap.
     Args:
@@ -263,7 +263,7 @@ def SSE_2015_average(Compound,SSE_2015=True):
     gap = mean(cations) - mean(anions)
     return gap
 
-def SSE_2015_weight(Compound,x,SSE_2015=True):
+def SSE_weight_gap(Compound,x,SSE_2015=True):
     '''
     A function to calculate the weighted average of the SSE band gap.
     Args:

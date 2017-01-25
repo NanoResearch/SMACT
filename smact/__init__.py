@@ -170,7 +170,7 @@ class Species(Element):
 
     """
 
-    def __init__(self,symbol,oxidation,coordination):
+    def __init__(self,symbol,oxidation,coordination = 1):
         Element.__init__(self,symbol)
 
         self.oxidation = oxidation

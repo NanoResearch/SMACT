@@ -2,7 +2,7 @@
 
 import unittest
 import smact
-from smact.properties import compound_electroneg
+from smact.properties import *
 from smact.builder import wurtzite
 import smact.screening
 import smact.lattice
@@ -99,6 +99,32 @@ class TestSequenceFunctions(unittest.TestCase):
             elements=["Cu", "Zn"], stoichs=[0.5, 0.5],
             source='Pauling'),
             5.0638963259)
+   
+    def test_SSE_min_gap(self):
+	Sn = smact.Species('Sn',2)
+	O  = smact.Species('O',-2)
+	self.assertAlmostEqual(SSE_min_gap([Sn,O],SSE_2015=False)
+        , 3.200000000)
+	self.assertAlmostEqual(SSE_min_gap([Sn,O],SSE_2015=True)
+        , 4.120000000)
+
+    def test_SSE_average_gap(self):
+        Sn = smact.Species('Sn',2)
+        Zn = smact.Species('Zn',2)
+        O  = smact.Species('O',-2)
+        self.assertAlmostEqual(SSE_average_gap([Zn,Sn,O],SSE_2015=False)
+        , 3.400000000)
+        self.assertAlmostEqual(SSE_average_gap([Zn,Sn,O],SSE_2015=True)
+        , 4.185000000)
+
+    def test_SSE_weight_gap(self):
+        Sn = smact.Species('Sn',2)
+        Zn = smact.Species('Zn',2)
+        O  = smact.Species('O',-2)
+        self.assertAlmostEqual(SSE_weight_gap([Zn,Sn,O],3.42,SSE_2015=False)
+        , 3.200000000)
+        self.assertAlmostEqual(SSE_weight_gap([Zn,Sn,O],3.42,SSE_2015=True)
+        , 4.120000000)
 
     # ---------------- BUILDER ----------------
 
